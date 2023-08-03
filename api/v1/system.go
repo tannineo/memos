@@ -40,6 +40,17 @@ type SystemStatus struct {
 	LocalStoragePath string `json:"localStoragePath"`
 	// Memo display with updated timestamp.
 	MemoDisplayWithUpdatedTs bool `json:"memoDisplayWithUpdatedTs"`
+
+	// Allow guests to see random memos
+	IfRandomMemoForGuest bool `json:"ifRandomMemoForGuests"`
+	// Search tags for random memos shown to guests
+	RandomMemoSearchTagsForGuests string `json:"randomMemoSearchTagsForGuests"`
+	// Allow login users to see random memos
+	IfRandomMemoForUsers bool `json:"ifRandomMemoForUsers"`
+	// Search tags for random memos shown to login users
+	RandomMemoSearchTagsForUsers string `json:"randomMemoSearchTagsForUsers"`
+	// Allow users to customize search tags for random memos
+	IfRandomMemoCustomSearchTagsForUsers bool `json:"randomMemoCustomSearchTagsForUsers"`
 }
 
 func (s *APIV1Service) registerSystemRoutes(g *echo.Group) {
@@ -50,6 +61,7 @@ func (s *APIV1Service) registerSystemRoutes(g *echo.Group) {
 	g.GET("/status", func(c echo.Context) error {
 		ctx := c.Request().Context()
 
+		// default system config
 		systemStatus := SystemStatus{
 			Profile:              *s.Profile,
 			DBSize:               0,
@@ -71,6 +83,12 @@ func (s *APIV1Service) registerSystemRoutes(g *echo.Group) {
 			StorageServiceID:         DatabaseStorage,
 			LocalStoragePath:         "assets/{timestamp}_{filename}",
 			MemoDisplayWithUpdatedTs: false,
+
+			IfRandomMemoForGuest:                 false,
+			RandomMemoSearchTagsForGuests:        "",
+			IfRandomMemoForUsers:                 false,
+			RandomMemoSearchTagsForUsers:         "",
+			IfRandomMemoCustomSearchTagsForUsers: false,
 		}
 
 		hostUserType := store.RoleHost
@@ -131,6 +149,18 @@ func (s *APIV1Service) registerSystemRoutes(g *echo.Group) {
 				systemStatus.LocalStoragePath = baseValue.(string)
 			case SystemSettingMemoDisplayWithUpdatedTsName.String():
 				systemStatus.MemoDisplayWithUpdatedTs = baseValue.(bool)
+
+			case SystemSettingIfRandomMemoForGuests.String():
+				systemStatus.IfRandomMemoForGuest = baseValue.(bool)
+			case SystemSettingRandomMemoSearchTagsForGuests.String():
+				systemStatus.RandomMemoSearchTagsForGuests = baseValue.(string)
+			case SystemSettingIfRandomMemoForUsers.String():
+				systemStatus.IfRandomMemoForUsers = baseValue.(bool)
+			case SystemSettingRandomMemoSearchTagsForUsers.String():
+				systemStatus.RandomMemoSearchTagsForUsers = baseValue.(string)
+			case SystemSettingIfRandomMemoCustomSearchTagsForUsers.String():
+				systemStatus.IfRandomMemoCustomSearchTagsForUsers = baseValue.(bool)
+
 			default:
 				log.Warn("Unknown system setting name", zap.String("setting name", systemSetting.Name))
 			}

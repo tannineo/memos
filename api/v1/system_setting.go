@@ -44,6 +44,16 @@ const (
 	SystemSettingOpenAIConfigName SystemSettingName = "openai-config"
 	// SystemSettingAutoBackupIntervalName is the name of auto backup interval as seconds.
 	SystemSettingAutoBackupIntervalName SystemSettingName = "auto-backup-interval"
+	// SystemSettingRandomMemoForGuests is the name of if a random memo can be shown for guests
+	SystemSettingIfRandomMemoForGuests SystemSettingName = "if-random-memo-for-guests"
+	// SystemSettingRandomMemoSearchTagsForGuests is the name of search tags rule applied to random memo shown for guests
+	SystemSettingRandomMemoSearchTagsForGuests SystemSettingName = "random-memo-search-tags-for-guests"
+	// SystemSettingIfRandomMemoForUsers is the name of if a random memo can be shown for login users
+	SystemSettingIfRandomMemoForUsers SystemSettingName = "if-random-memo-for-users"
+	// SystemSettingRandomMemoSearchTagsForUsers is the name of search tags rule applied to random memo shown for login users
+	SystemSettingRandomMemoSearchTagsForUsers SystemSettingName = "random-memo-search-tags-for-users"
+	// SystemSettingRandomMemoSearchTagsForUsers is the name of allowing custom search tags rule applied to random memo shown for each user
+	SystemSettingIfRandomMemoCustomSearchTagsForUsers SystemSettingName = "if-random-memo-custom-search-tags-for-users"
 )
 
 // CustomizedProfile is the struct definition for SystemSettingCustomizedProfileName system setting item.
