@@ -2,6 +2,7 @@ package util
 
 import (
 	"crypto/rand"
+	"fmt"
 	"math/big"
 	"net/mail"
 	"strconv"
@@ -67,4 +68,21 @@ func RandomString(n int) (string, error) {
 		}
 	}
 	return sb.String(), nil
+}
+
+// ValidateRandomMemoSearchTags validates a search tags rule for random memo config
+func ValidateRandomMemoSearchTags(s string) error {
+	var trimmedString = strings.Replace(s, " ", "", -1)
+	if trimmedString == "" {
+		return nil
+	}
+	// prefix settings cannot start or end with comma
+	if strings.HasPrefix(trimmedString, ",") || strings.HasSuffix(trimmedString, ",") {
+		return fmt.Errorf("search tag settings cannot start or end with commas")
+	}
+	// if no characters other than comma, there is no valid tags
+	if len(strings.Replace(trimmedString, ",", "", -1)) <= 0 {
+		return fmt.Errorf("search tag settings must contain a valid tag")
+	}
+	return nil
 }

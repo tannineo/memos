@@ -8,6 +8,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/usememos/memos/api/auth"
+	"github.com/usememos/memos/common/util"
 	"github.com/usememos/memos/store"
 )
 
@@ -172,6 +173,29 @@ func (upsert UpsertSystemSettingRequest) Validate() error {
 			return fmt.Errorf(systemSettingUnmarshalError, settingName)
 		}
 	case SystemSettingMemoDisplayWithUpdatedTsName:
+		var value bool
+		if err := json.Unmarshal([]byte(upsert.Value), &value); err != nil {
+			return fmt.Errorf(systemSettingUnmarshalError, settingName)
+		}
+	case SystemSettingIfRandomMemoForGuests:
+		var value bool
+		if err := json.Unmarshal([]byte(upsert.Value), &value); err != nil {
+			return fmt.Errorf(systemSettingUnmarshalError, settingName)
+		}
+	case SystemSettingRandomMemoSearchTagsForGuests:
+		if err := util.ValidateRandomMemoSearchTags(upsert.Value); err != nil {
+			return err
+		}
+	case SystemSettingIfRandomMemoForUsers:
+		var value bool
+		if err := json.Unmarshal([]byte(upsert.Value), &value); err != nil {
+			return fmt.Errorf(systemSettingUnmarshalError, settingName)
+		}
+	case SystemSettingRandomMemoSearchTagsForUsers:
+		if err := util.ValidateRandomMemoSearchTags(upsert.Value); err != nil {
+			return err
+		}
+	case SystemSettingIfRandomMemoCustomSearchTagsForUsers:
 		var value bool
 		if err := json.Unmarshal([]byte(upsert.Value), &value); err != nil {
 			return fmt.Errorf(systemSettingUnmarshalError, settingName)
