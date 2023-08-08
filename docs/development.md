@@ -12,6 +12,7 @@ Memos is built with a curated tech stack. It is optimized for developer experien
 - [Air](https://github.com/cosmtrek/air#installation) for backend live reload
 - [Node.js](https://nodejs.org/)
 - [pnpm](https://pnpm.io/installation)
+- [buf](https://github.com/bufbuild)
 
 ## Steps
 
@@ -34,3 +35,15 @@ Memos is built with a curated tech stack. It is optimized for developer experien
    ```
 
 Memos should now be running at [http://localhost:3001](http://localhost:3001) and change either frontend or backend code would trigger live reload.
+
+### V2 API changes
+
+V2 APIs are using `protobuf`, `buf` is a CLI tool with config files defined.
+
+When changes are made under `proto/api/`:
+
+```bash
+cd proto && buf generate
+```
+
+Codes will be generated under `proto/gen/`, don't forget to stage and commit these generated codes.
