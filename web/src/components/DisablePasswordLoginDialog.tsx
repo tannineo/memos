@@ -2,6 +2,7 @@ import { Button } from "@mui/joy";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import * as api from "@/helpers/api";
+import { SYSTEM_SETTINGS } from "@/helpers/consts";
 import { useGlobalStore } from "@/store/module";
 import { useTranslate } from "@/utils/i18n";
 import { generateDialog } from "./Dialog";
@@ -39,7 +40,7 @@ const DisablePasswordLoginDialog: React.FC<Props> = ({ destroy }: Props) => {
       globalStore.setSystemStatus({ disablePasswordLogin: true });
       try {
         await api.upsertSystemSetting({
-          name: "disable-password-login",
+          name: SYSTEM_SETTINGS.DISABLE_PASSWORD_LOGIN,
           value: JSON.stringify(true),
         });
         handleCloseBtnClick();

@@ -2,6 +2,7 @@ import { Divider, Option, Select } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import * as api from "@/helpers/api";
+import { SYSTEM_SETTINGS } from "@/helpers/consts";
 import { useGlobalStore } from "@/store/module";
 import { useTranslate } from "@/utils/i18n";
 import showCreateStorageServiceDialog from "../CreateStorageServiceDialog";
@@ -28,7 +29,7 @@ const StorageSection = () => {
 
   const handleActiveStorageServiceChanged = async (storageId: StorageId) => {
     await api.upsertSystemSetting({
-      name: "storage-service-id",
+      name: SYSTEM_SETTINGS.STORAGE_SERVICE_ID,
       value: JSON.stringify(storageId),
     });
     await globalStore.fetchSystemStatus();

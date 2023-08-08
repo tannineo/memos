@@ -29,8 +29,3 @@ interface SystemStatus {
   localStoragePath: string;
   memoDisplayWithUpdatedTs: boolean;
 }
-
-interface SystemSetting {
-  name: string;
-  value: string;
-}

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SystemSetting } from "./consts";
 
 export function getSystemStatus() {
   return axios.get<SystemStatus>("/api/v1/status");

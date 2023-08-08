@@ -2,6 +2,7 @@ import { Button, Divider, Input, Switch, Textarea, Tooltip } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import * as api from "@/helpers/api";
+import { SYSTEM_SETTINGS } from "@/helpers/consts";
 import { formatBytes } from "@/helpers/utils";
 import { useGlobalStore } from "@/store/module";
 import { useTranslate } from "@/utils/i18n";
@@ -76,7 +77,7 @@ const SystemSection = () => {
     });
     globalStore.setSystemStatus({ allowSignUp: value });
     await api.upsertSystemSetting({
-      name: "allow-signup",
+      name: SYSTEM_SETTINGS.ALLOW_SIGNUP,
       value: JSON.stringify(value),
     });
   };
@@ -94,7 +95,7 @@ const SystemSection = () => {
           setState({ ...state, disablePasswordLogin: value });
           globalStore.setSystemStatus({ disablePasswordLogin: value });
           await api.upsertSystemSetting({
-            name: "disable-password-login",
+            name: SYSTEM_SETTINGS.DISABLE_PASSWORD_LOGIN,
             value: JSON.stringify(value),
           });
         },
@@ -124,7 +125,7 @@ const SystemSection = () => {
   const handleSaveTelegramBotToken = async () => {
     try {
       await api.upsertSystemSetting({
-        name: "telegram-bot-token",
+        name: SYSTEM_SETTINGS.TELEGRAM_BOT_TOKEN,
         value: telegramBotToken,
       });
     } catch (error: any) {
@@ -145,7 +146,7 @@ const SystemSection = () => {
   const handleSaveAdditionalStyle = async () => {
     try {
       await api.upsertSystemSetting({
-        name: "additional-style",
+        name: SYSTEM_SETTINGS.ADDITIONAL_STYLE,
         value: JSON.stringify(state.additionalStyle),
       });
     } catch (error) {
@@ -165,7 +166,7 @@ const SystemSection = () => {
   const handleSaveAdditionalScript = async () => {
     try {
       await api.upsertSystemSetting({
-        name: "additional-script",
+        name: SYSTEM_SETTINGS.ADDITIONAL_SCRIPT,
         value: JSON.stringify(state.additionalScript),
       });
     } catch (error) {
@@ -182,7 +183,7 @@ const SystemSection = () => {
     });
     globalStore.setSystemStatus({ disablePublicMemos: value });
     await api.upsertSystemSetting({
-      name: "disable-public-memos",
+      name: SYSTEM_SETTINGS.DISABLE_PUBLIC_MEMOS,
       value: JSON.stringify(value),
     });
   };
@@ -194,7 +195,7 @@ const SystemSection = () => {
     });
     globalStore.setSystemStatus({ memoDisplayWithUpdatedTs: value });
     await api.upsertSystemSetting({
-      name: "memo-display-with-updated-ts",
+      name: SYSTEM_SETTINGS.MEMO_DISPLAY_WITH_UPDATED_TS,
       value: JSON.stringify(value),
     });
   };
@@ -214,7 +215,7 @@ const SystemSection = () => {
     event.target.value = num.toString();
     globalStore.setSystemStatus({ maxUploadSizeMiB: num });
     await api.upsertSystemSetting({
-      name: "max-upload-size-mib",
+      name: SYSTEM_SETTINGS.MAX_UPLOAD_SIZE_MIB,
       value: JSON.stringify(num),
     });
   };
@@ -238,7 +239,7 @@ const SystemSection = () => {
     event.target.value = num.toString();
     globalStore.setSystemStatus({ autoBackupInterval: num });
     await api.upsertSystemSetting({
-      name: "auto-backup-interval",
+      name: SYSTEM_SETTINGS.AUTO_BACKUP_INTERVAL,
       value: JSON.stringify(num),
     });
   };
@@ -246,6 +247,8 @@ const SystemSection = () => {
   const handleAutoBackupIntervalFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     event.target.select();
   };
+
+  const handleAllowRandomMemosForGuestChanged = async (value: boolean) => {};
 
   return (
     <div className="section-container system-section-container">
@@ -370,6 +373,13 @@ const SystemSection = () => {
         value={state.additionalScript}
         onChange={(event) => handleAdditionalScriptChanged(event.target.value)}
       />
+
+      <Divider className="!mt-3 !my-4" />
+      <p className="title-text">{t("common.random-memo")}</p>
+      <div className="form-label">
+        <span className="normal-text">{t("setting.system-section.random-memo.allow-random-memo-for-guests")}</span>
+        <Switch checked={state.allowSignUp} onChange={(event) => handleAllowSignUpChanged(event.target.checked)} />
+      </div>
     </div>
   );
 };

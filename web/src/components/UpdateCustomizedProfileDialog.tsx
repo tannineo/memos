@@ -3,6 +3,7 @@ import Textarea from "@mui/joy/Textarea/Textarea";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import * as api from "@/helpers/api";
+import { SYSTEM_SETTINGS } from "@/helpers/consts";
 import { useGlobalStore } from "@/store/module";
 import { useTranslate } from "@/utils/i18n";
 import AppearanceSelect from "./AppearanceSelect";
@@ -79,7 +80,7 @@ const UpdateCustomizedProfileDialog: React.FC<Props> = ({ destroy }: Props) => {
 
     try {
       await api.upsertSystemSetting({
-        name: "customized-profile",
+        name: SYSTEM_SETTINGS.CUSTOMIZED_PROFILE,
         value: JSON.stringify(state),
       });
       await globalStore.fetchSystemStatus();

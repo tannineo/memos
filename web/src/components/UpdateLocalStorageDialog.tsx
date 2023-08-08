@@ -2,6 +2,7 @@ import { Button, Input } from "@mui/joy";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import * as api from "@/helpers/api";
+import { SYSTEM_SETTINGS } from "@/helpers/consts";
 import { useGlobalStore } from "@/store/module";
 import { useTranslate } from "@/utils/i18n";
 import { generateDialog } from "./Dialog";
@@ -26,7 +27,7 @@ const UpdateLocalStorageDialog: React.FC<Props> = (props: Props) => {
   const handleConfirmBtnClick = async () => {
     try {
       await api.upsertSystemSetting({
-        name: "local-storage-path",
+        name: SYSTEM_SETTINGS.LOCAL_STORAGE_PATH,
         value: JSON.stringify(path),
       });
       await globalStore.fetchSystemStatus();
