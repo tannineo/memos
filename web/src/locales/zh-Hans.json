@@ -49,7 +49,6 @@
     "select": "选择",
     "settings": "设置",
     "share": "分享",
-    "shortcuts": "捷径",
     "sign-in": "登录",
     "sign-in-with": "使用{{provider}}登录",
     "sign-out": "注销",
@@ -95,17 +94,6 @@
     "archived-memos": "已归档的备忘录",
     "fetching-data": "请求数据中...",
     "no-archived-memos": "没有归档的备忘录"
-  },
-  "memo-chat": {
-    "go-to-settings": "前往设置",
-    "save-as-memo": "保存为 Memo",
-    "save-as-memo-success": "保存为 Memo 成功",
-    "not-enabled": "您尚未设置 OpenAI API 密钥。",
-    "placeholder": "随便问",
-    "title": "问 AI",
-    "default-message-group-title": "默认会话",
-    "create-message-group-title": "新建会话",
-    "label-message-group-name-title": "会话名称"
   },
   "auth": {
     "host-tip": "你正在注册为管理员用户账号。",
@@ -439,15 +427,6 @@
       "auto-backup-interval-hint": "设置为0禁止自动备份，重启后生效",
       "display-with-updated-time": "显示最后修改时间"
     }
-  },
-  "shortcut-list": {
-    "create-shortcut": "创建捷径",
-    "edit-shortcut": "编辑捷径",
-    "eligible-memo": "符合条件的备忘录",
-    "fill-previous": "请填写之前的过滤值",
-    "shortcut-title": "捷径标题",
-    "title-required": "标题是必填项",
-    "value-required": "过滤值是必填项"
   },
   "tag-list": {
     "all-tags": "全部标签",

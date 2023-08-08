@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { getDateString } from "@/helpers/datetime";
-import { getTextWithMemoType } from "@/helpers/filter";
-import { useFilterStore, useShortcutStore } from "@/store/module";
+import { useFilterStore } from "@/store/module";
 import { useTranslate } from "@/utils/i18n";
 import Icon from "./Icon";
 import "@/less/memo-filter.less";
@@ -11,11 +10,9 @@ const MemoFilter = () => {
   const t = useTranslate();
   const location = useLocation();
   const filterStore = useFilterStore();
-  const shortcutStore = useShortcutStore();
   const filter = filterStore.state;
-  const { tag: tagQuery, duration, type: memoType, text: textQuery, shortcutId, visibility } = filter;
-  const shortcut = shortcutId ? shortcutStore.getShortcutById(shortcutId) : null;
-  const showFilter = Boolean(tagQuery || (duration && duration.from < duration.to) || memoType || textQuery || shortcut || visibility);
+  const { tag: tagQuery, duration, text: textQuery, visibility } = filter;
+  const showFilter = Boolean(tagQuery || (duration && duration.from < duration.to) || textQuery || visibility);
 
   useEffect(() => {
     filterStore.clearFilter();
@@ -25,31 +22,12 @@ const MemoFilter = () => {
     <div className={`filter-query-container ${showFilter ? "" : "!hidden"}`}>
       <span className="mx-2 text-gray-400">{t("common.filter")}:</span>
       <div
-        className={"filter-item-container " + (shortcut ? "" : "!hidden")}
-        onClick={() => {
-          filterStore.setMemoShortcut(undefined);
-        }}
-      >
-        <Icon.Target className="icon-text" /> {shortcut?.title}
-        <Icon.X className="w-4 h-auto ml-1 opacity-40" />
-      </div>
-      <div
         className={"filter-item-container " + (tagQuery ? "" : "!hidden")}
         onClick={() => {
           filterStore.setTagFilter(undefined);
         }}
       >
         <Icon.Tag className="icon-text" /> {tagQuery}
-        <Icon.X className="w-4 h-auto ml-1 opacity-40" />
-      </div>
-      <div
-        className={"filter-item-container " + (memoType ? "" : "!hidden")}
-        onClick={() => {
-          filterStore.setMemoTypeFilter(undefined);
-        }}
-      >
-        <Icon.Box className="icon-text" />{" "}
-        {t(getTextWithMemoType(memoType as MemoSpecType) as Exclude<ReturnType<typeof getTextWithMemoType>, "">)}
         <Icon.X className="w-4 h-auto ml-1 opacity-40" />
       </div>
       <div

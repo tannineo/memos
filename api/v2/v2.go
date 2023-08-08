@@ -29,7 +29,9 @@ func NewAPIV2Service(secret string, profile *profile.Profile, store *store.Store
 			authProvider.AuthenticationInterceptor,
 		),
 	)
+	apiv2pb.RegisterSystemServiceServer(grpcServer, NewSystemService(profile, store))
 	apiv2pb.RegisterUserServiceServer(grpcServer, NewUserService(store))
+	apiv2pb.RegisterMemoServiceServer(grpcServer, NewMemoService(store))
 	apiv2pb.RegisterTagServiceServer(grpcServer, NewTagService(store))
 
 	return &APIV2Service{
@@ -59,7 +61,13 @@ func (s *APIV2Service) RegisterGateway(ctx context.Context, e *echo.Echo) error 
 	}
 
 	gwMux := grpcRuntime.NewServeMux()
+	if err := apiv2pb.RegisterSystemServiceHandler(context.Background(), gwMux, conn); err != nil {
+		return err
+	}
 	if err := apiv2pb.RegisterUserServiceHandler(context.Background(), gwMux, conn); err != nil {
+		return err
+	}
+	if err := apiv2pb.RegisterMemoServiceHandler(context.Background(), gwMux, conn); err != nil {
 		return err
 	}
 	if err := apiv2pb.RegisterTagServiceHandler(context.Background(), gwMux, conn); err != nil {

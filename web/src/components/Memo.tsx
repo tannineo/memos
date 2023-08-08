@@ -27,10 +27,11 @@ interface Props {
   showFull?: boolean;
   showVisibility?: boolean;
   showRelatedMemos?: boolean;
+  lazyRendering?: boolean;
 }
 
 const Memo: React.FC<Props> = (props: Props) => {
-  const { memo, showCreator, showFull, showVisibility, showRelatedMemos } = props;
+  const { memo, showCreator, showFull, showVisibility, showRelatedMemos, lazyRendering } = props;
   const { i18n } = useTranslation();
   const t = useTranslate();
   const filterStore = useFilterStore();
@@ -38,6 +39,7 @@ const Memo: React.FC<Props> = (props: Props) => {
   const memoStore = useMemoStore();
   const memoCacheStore = useMemoCacheStore();
   const userV1Store = useUserV1Store();
+  const [shouldRender, setShouldRender] = useState<boolean>(lazyRendering ? false : true);
   const [createdTimeStr, setCreatedTimeStr] = useState<string>(getRelativeTimeString(memo.displayTs));
   const [relatedMemoList, setRelatedMemoList] = useState<Memo[]>([]);
   const memoContainerRef = useRef<HTMLDivElement>(null);
@@ -64,6 +66,7 @@ const Memo: React.FC<Props> = (props: Props) => {
     );
   }, [memo.relationList]);
 
+  // Update display time string.
   useEffect(() => {
     let intervalFlag: any = -1;
     if (Date.now() - memo.displayTs < 1000 * 60 * 60 * 24) {
@@ -76,6 +79,34 @@ const Memo: React.FC<Props> = (props: Props) => {
       clearInterval(intervalFlag);
     };
   }, [i18n.language]);
+
+  // Lazy rendering.
+  useEffect(() => {
+    if (shouldRender) {
+      return;
+    }
+
+    const root = document.body.querySelector("#root");
+    if (root) {
+      const checkShouldRender = () => {
+        if (root.scrollTop + window.innerHeight > (memoContainerRef.current?.offsetTop || 0)) {
+          setShouldRender(true);
+          root.removeEventListener("scroll", checkShouldRender);
+          return true;
+        }
+      };
+
+      if (checkShouldRender()) {
+        return;
+      }
+      root.addEventListener("scroll", checkShouldRender);
+    }
+  }, [lazyRendering]);
+
+  if (!shouldRender) {
+    // Render a placeholder to occupy the space.
+    return <div className={`memo-wrapper min-h-[128px] ${"memos-" + memo.id}`} ref={memoContainerRef}></div>;
+  }
 
   const handleTogglePinMemoBtnClick = async () => {
     try {

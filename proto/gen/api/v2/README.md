@@ -6,6 +6,24 @@
 - [api/v2/common.proto](#api_v2_common-proto)
     - [RowStatus](#memos-api-v2-RowStatus)
   
+- [api/v2/memo_service.proto](#api_v2_memo_service-proto)
+    - [GetMemoRequest](#memos-api-v2-GetMemoRequest)
+    - [GetMemoResponse](#memos-api-v2-GetMemoResponse)
+    - [ListMemosRequest](#memos-api-v2-ListMemosRequest)
+    - [ListMemosResponse](#memos-api-v2-ListMemosResponse)
+    - [Memo](#memos-api-v2-Memo)
+  
+    - [Visibility](#memos-api-v2-Visibility)
+  
+    - [MemoService](#memos-api-v2-MemoService)
+  
+- [api/v2/system_service.proto](#api_v2_system_service-proto)
+    - [GetSystemInfoRequest](#memos-api-v2-GetSystemInfoRequest)
+    - [GetSystemInfoResponse](#memos-api-v2-GetSystemInfoResponse)
+    - [SystemInfo](#memos-api-v2-SystemInfo)
+  
+    - [SystemService](#memos-api-v2-SystemService)
+  
 - [api/v2/tag_service.proto](#api_v2_tag_service-proto)
     - [ListTagsRequest](#memos-api-v2-ListTagsRequest)
     - [ListTagsResponse](#memos-api-v2-ListTagsResponse)
@@ -22,7 +40,6 @@
   
     - [Role](#memos-api-v2-Role)
     - [UserSetting.Key](#memos-api-v2-UserSetting-Key)
-    - [Visibility](#memos-api-v2-Visibility)
   
     - [UserService](#memos-api-v2-UserService)
   
@@ -54,6 +71,204 @@
  
 
  
+
+ 
+
+
+
+<a name="api_v2_memo_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api/v2/memo_service.proto
+
+
+
+<a name="memos-api-v2-GetMemoRequest"></a>
+
+### GetMemoRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [int32](#int32) |  |  |
+
+
+
+
+
+
+<a name="memos-api-v2-GetMemoResponse"></a>
+
+### GetMemoResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| memo | [Memo](#memos-api-v2-Memo) |  |  |
+
+
+
+
+
+
+<a name="memos-api-v2-ListMemosRequest"></a>
+
+### ListMemosRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| page | [int32](#int32) |  |  |
+| page_size | [int32](#int32) |  |  |
+| filter | [string](#string) |  | Filter is used to filter memos returned in the list. |
+
+
+
+
+
+
+<a name="memos-api-v2-ListMemosResponse"></a>
+
+### ListMemosResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| memos | [Memo](#memos-api-v2-Memo) | repeated |  |
+| total | [int32](#int32) |  |  |
+
+
+
+
+
+
+<a name="memos-api-v2-Memo"></a>
+
+### Memo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [int32](#int32) |  |  |
+| row_status | [RowStatus](#memos-api-v2-RowStatus) |  |  |
+| creator_id | [int32](#int32) |  |  |
+| created_ts | [int64](#int64) |  |  |
+| updated_ts | [int64](#int64) |  |  |
+| content | [string](#string) |  |  |
+| visibility | [Visibility](#memos-api-v2-Visibility) |  |  |
+| pinned | [bool](#bool) |  |  |
+
+
+
+
+
+ 
+
+
+<a name="memos-api-v2-Visibility"></a>
+
+### Visibility
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| VISIBILITY_UNSPECIFIED | 0 |  |
+| PRIVATE | 1 |  |
+| PROTECTED | 2 |  |
+| PUBLIC | 3 |  |
+
+
+ 
+
+ 
+
+
+<a name="memos-api-v2-MemoService"></a>
+
+### MemoService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| ListMemos | [ListMemosRequest](#memos-api-v2-ListMemosRequest) | [ListMemosResponse](#memos-api-v2-ListMemosResponse) |  |
+| GetMemo | [GetMemoRequest](#memos-api-v2-GetMemoRequest) | [GetMemoResponse](#memos-api-v2-GetMemoResponse) |  |
+
+ 
+
+
+
+<a name="api_v2_system_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api/v2/system_service.proto
+
+
+
+<a name="memos-api-v2-GetSystemInfoRequest"></a>
+
+### GetSystemInfoRequest
+
+
+
+
+
+
+
+<a name="memos-api-v2-GetSystemInfoResponse"></a>
+
+### GetSystemInfoResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| system_info | [SystemInfo](#memos-api-v2-SystemInfo) |  |  |
+
+
+
+
+
+
+<a name="memos-api-v2-SystemInfo"></a>
+
+### SystemInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| version | [string](#string) |  |  |
+| mode | [string](#string) |  |  |
+| allow_registration | [bool](#bool) |  |  |
+| disable_password_login | [bool](#bool) |  |  |
+| additional_script | [string](#string) |  |  |
+| additional_style | [string](#string) |  |  |
+| db_size | [int64](#int64) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="memos-api-v2-SystemService"></a>
+
+### SystemService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetSystemInfo | [GetSystemInfoRequest](#memos-api-v2-GetSystemInfoRequest) | [GetSystemInfoResponse](#memos-api-v2-GetSystemInfoResponse) |  |
 
  
 
@@ -186,7 +401,6 @@
 | nickname | [string](#string) |  |  |
 | open_id | [string](#string) |  |  |
 | avatar_url | [string](#string) |  |  |
-| settings | [UserSetting](#memos-api-v2-UserSetting) | repeated |  |
 
 
 
@@ -254,20 +468,6 @@
 | APPEARANCE | 2 | The preferred appearance. |
 | MEMO_VISIBILITY | 3 | The default visibility of the memo when creating a new memo. |
 | TELEGRAM_USER_ID | 4 | User&#39;s telegram id |
-
-
-
-<a name="memos-api-v2-Visibility"></a>
-
-### Visibility
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| VISIBILITY_UNSPECIFIED | 0 |  |
-| PRIVATE | 1 |  |
-| PROTECTED | 2 |  |
-| PUBLIC | 3 |  |
 
 
  

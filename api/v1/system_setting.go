@@ -40,8 +40,6 @@ const (
 	SystemSettingTelegramBotTokenName SystemSettingName = "telegram-bot-token"
 	// SystemSettingMemoDisplayWithUpdatedTsName is the name of memo display with updated ts.
 	SystemSettingMemoDisplayWithUpdatedTsName SystemSettingName = "memo-display-with-updated-ts"
-	// SystemSettingOpenAIConfigName is the name of OpenAI config.
-	SystemSettingOpenAIConfigName SystemSettingName = "openai-config"
 	// SystemSettingAutoBackupIntervalName is the name of auto backup interval as seconds.
 	SystemSettingAutoBackupIntervalName SystemSettingName = "auto-backup-interval"
 	// SystemSettingRandomMemoForGuests is the name of if a random memo can be shown for guests
@@ -81,11 +79,6 @@ type SystemSetting struct {
 	// Value is a JSON string with basic value.
 	Value       string `json:"value"`
 	Description string `json:"description"`
-}
-
-type OpenAIConfig struct {
-	Key  string `json:"key"`
-	Host string `json:"host"`
 }
 
 type UpsertSystemSettingRequest struct {
@@ -154,11 +147,6 @@ func (upsert UpsertSystemSettingRequest) Validate() error {
 		if err := json.Unmarshal([]byte(upsert.Value), &value); err != nil {
 			return fmt.Errorf(systemSettingUnmarshalError, settingName)
 		}
-	case SystemSettingOpenAIConfigName:
-		value := OpenAIConfig{}
-		if err := json.Unmarshal([]byte(upsert.Value), &value); err != nil {
-			return fmt.Errorf(systemSettingUnmarshalError, settingName)
-		}
 	case SystemSettingAutoBackupIntervalName:
 		var value int
 		if err := json.Unmarshal([]byte(upsert.Value), &value); err != nil {
@@ -197,7 +185,7 @@ func (upsert UpsertSystemSettingRequest) Validate() error {
 func (s *APIV1Service) registerSystemSettingRoutes(g *echo.Group) {
 	g.POST("/system/setting", func(c echo.Context) error {
 		ctx := c.Request().Context()
-		userID, ok := c.Get(auth.UserIDContextKey).(int)
+		userID, ok := c.Get(auth.UserIDContextKey).(int32)
 		if !ok {
 			return echo.NewHTTPError(http.StatusUnauthorized, "Missing user in session")
 		}
@@ -247,7 +235,7 @@ func (s *APIV1Service) registerSystemSettingRoutes(g *echo.Group) {
 
 	g.GET("/system/setting", func(c echo.Context) error {
 		ctx := c.Request().Context()
-		userID, ok := c.Get(auth.UserIDContextKey).(int)
+		userID, ok := c.Get(auth.UserIDContextKey).(int32)
 		if !ok {
 			return echo.NewHTTPError(http.StatusUnauthorized, "Missing user in session")
 		}

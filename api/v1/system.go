@@ -35,7 +35,7 @@ type SystemStatus struct {
 	// Customized server profile, including server name and external url.
 	CustomizedProfile CustomizedProfile `json:"customizedProfile"`
 	// Storage service ID.
-	StorageServiceID int `json:"storageServiceId"`
+	StorageServiceID int32 `json:"storageServiceId"`
 	// Local storage path.
 	LocalStoragePath string `json:"localStoragePath"`
 	// Memo display with updated timestamp.
@@ -100,10 +100,6 @@ func (s *APIV1Service) registerSystemRoutes(g *echo.Group) {
 		}
 		if hostUser != nil {
 			systemStatus.Host = &User{ID: hostUser.ID}
-			// data desensitize
-			systemStatus.Host.OpenID = ""
-			systemStatus.Host.Email = ""
-			systemStatus.Host.AvatarURL = ""
 		}
 
 		systemSettingList, err := s.Store.ListSystemSettings(ctx, &store.FindSystemSetting{})
@@ -144,7 +140,7 @@ func (s *APIV1Service) registerSystemRoutes(g *echo.Group) {
 				}
 				systemStatus.CustomizedProfile = customizedProfile
 			case SystemSettingStorageServiceIDName.String():
-				systemStatus.StorageServiceID = int(baseValue.(float64))
+				systemStatus.StorageServiceID = int32(baseValue.(float64))
 			case SystemSettingLocalStoragePathName.String():
 				systemStatus.LocalStoragePath = baseValue.(string)
 			case SystemSettingMemoDisplayWithUpdatedTsName.String():
@@ -171,7 +167,7 @@ func (s *APIV1Service) registerSystemRoutes(g *echo.Group) {
 
 	g.POST("/system/vacuum", func(c echo.Context) error {
 		ctx := c.Request().Context()
-		userID, ok := c.Get(auth.UserIDContextKey).(int)
+		userID, ok := c.Get(auth.UserIDContextKey).(int32)
 		if !ok {
 			return echo.NewHTTPError(http.StatusUnauthorized, "Missing user in session")
 		}
