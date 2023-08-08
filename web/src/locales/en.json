@@ -67,7 +67,8 @@
       "success": "Success",
       "warning": "Warning"
     },
-    "mark": "Mark"
+    "mark": "Mark",
+    "random-memo": "Random Memo"
   },
   "router": {
     "back-to-home": "Back to Home"
@@ -193,7 +194,11 @@
       "created_ts": "Created Time",
       "updated_ts": "Updated Time",
       "daily-review-time-offset": "Daily Review Time Offset",
-      "auto-collapse": "Auto Collapse"
+      "auto-collapse": "Auto Collapse",
+      "random-memo": {
+        "show-random-memo": "Show random memo",
+        "random-memo-search-tags": "Search tags for random memos"
+      }
     },
     "storage-section": {
       "current-storage": "Current object storage",
@@ -264,7 +269,15 @@
       "telegram-bot-token": "Telegram Bot Token",
       "telegram-bot-token-description": "Telegram Bot Token or API Proxy like `http.../bot<token>`",
       "telegram-bot-token-placeholder": "Your Telegram Bot token",
-      "display-with-updated-time": "Display with updated time"
+      "display-with-updated-time": "Display with updated time",
+      "random-memo": {
+        "allow-random-memo-for-guests": "Allow guests to see random memos",
+        "random-memo-for-guests-search-tags": "Seatch tags for random memos shown to guests",
+        "random-memo-search-tags-placeholder": "Divided by commas, example: tag-1,tag-2,tag-3",
+        "allow-random-memo-for-users": "Allow login users to see random memos",
+        "random-memo-for-users-search-tags": "Seatch tags for random memos shown to login users",
+        "allow-custom-search-tags-for-users": "Allow login users to custom search tags for random memos"
+      }
     },
     "appearance-option": {
       "system": "Follow system",
